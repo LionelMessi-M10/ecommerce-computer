@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Đăng ký</title>
+    <link rel="shortcut icon" type="image/png" href="/favicon/icon-shop.png"/>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/register/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="/register/css/style.css">
+
+    <link rel="shortcut icon" type="image/png" href="/favicon/icon-shop.png"/>
+</head>
+<body>
+
+    <div class="main">
+
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <form th:action="@{/register}" method="POST" th:object="${user}" id="signup-form" class="signup-form">
+                        <h2 class="form-title">Create account</h2>
+                        <div class="form-group">
+                            <input type="text" class="form-input" name="name" id="name" placeholder="Your Username" th:field="*{username}"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-input" name="email" id="email" placeholder="Your Email" th:field="*{email}"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" name="password" id="password" placeholder="Password" th:field="*{password}"/>
+                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" name="re_password" id="re_password" placeholder="Your address" th:field="*{address}"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" name="re_password" id="re_password" placeholder="Your phone number" th:field="*{phoneNumber}"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up"/>
+                        </div>
+                    </form>
+                    <p class="loginhere">
+                        Have already an account ? <a href="/login" class="loginhere-link">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="/register/vendor/jquery/jquery.min.js"></script>
+    <script src="/register/js/main.js"></script>
+</body>
+</html>
