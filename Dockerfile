@@ -1,12 +1,11 @@
 FROM maven:3.8.3-openjdk-17 AS build
-COPY . .
+WORKDIR /app
+COPY . /app/
 RUN mvn clean package
 
-#
-# Package stage
-#
 FROM openjdk:17-alpine
-COPY --from=build /target/computer-0.0.1-SNAPSHOT.jar demo.jar
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","demo.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
