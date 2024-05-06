@@ -11,8 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,10 +40,12 @@ public class OrderController {
         List<String> idProducts = Collections.singletonList(httpServletRequest.getParameter("idProduct"));
         List<Product> products = new ArrayList<>();
 
-        if(product.getId() > 0) products.add(product);
+        if(product.getId() != null) products.add(productService.findById(product.getId()));
 
-        for(String id : idProducts){
-            products.add(productService.findById(Long.parseLong(id)));
+        if(!idProducts.isEmpty()){
+            for(String id : idProducts){
+                if(id != null) products.add(productService.findById(Long.parseLong(id)));
+            }
         }
 
         List<Category> categories = categoryService.findAll();
@@ -50,11 +54,13 @@ public class OrderController {
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
             User user = userService.findByUserName(username);
-            Order order = productService.checkoutProduct(user, products, quantitys);
-
+            Order order = new Order();
             Double total = 0.0;
 
-            for(OrderDetail item : order.getOrderDetails()) total += item.getTotal();
+            if(!products.isEmpty()){
+                order = productService.checkoutProduct(user, products, quantitys);
+                for(OrderDetail item : order.getOrderDetails()) total += item.getTotal();
+            }
 
             model.addAttribute("user", user);
             model.addAttribute("total", total);
@@ -67,15 +73,18 @@ public class OrderController {
         return "checkout";
     }
 
-    @PostMapping("/ecommerce-computer/shop/order-detail")
-    public String orderDetail(Model model, HttpServletRequest httpServletRequest){
-        Long orderId = Long.parseLong(httpServletRequest.getParameter("orderid"));
-        Order order = orderService.findById(orderId);
+    @PostMapping("/ecommerce-computer/shop/order-confirm")
+    public String orderDetail(){
+        return "redirect:/ecommerce-computer/orders";
+    }
 
-        List<Category> categories = categoryService.findAll();
-
+    @GetMapping("/ecommerce-computer/orders/order-detail")
+    public String viewOrderDetail(@RequestParam("id") Long orderId, Model model){
+        Order order = this.orderService.findById(orderId);
+        List<Category> categories = this.categoryService.findAll();
+        model.addAttribute("orderDetail", order);
+        model.addAttribute("buyDate", order.getOrderDetails().get(0).getCreated_at());
         model.addAttribute("categories", categories);
-
         return "order_detail";
     }
 }

@@ -189,66 +189,37 @@
                     </div>
                     <div class="card-body">
                         <h5 class="font-weight-medium mb-3">Products</h5>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 1</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 2</p>
-                            <p>$160</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 3</p>
-                            <p>$170</p>
+                        <div class="d-flex justify-content-between" th:each="item : ${orderDetail.orderDetails}">
+                            <p th:text="${item.product.name}"></p>
+                            <p th:text="${item.product.price}">$150</p>
                         </div>
                         <hr class="mt-0">
                         <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">11:54 27-01-2024</h6>
-                            <h6 class="font-weight-medium">Being prepared
-
-                                Seller is preparing</h6>
+                            <h6 class="font-weight-medium">Ngày mua hàng</h6>
+                            <h6 class="font-weight-medium" th:text="${#dates.format(buyDate, 'dd/MM/yyyy HH:mm:ss')}"></h6>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">09:22 29-01-2024</h6>
-                            <h6 class="font-weight-medium">Delivering
+<!--                        <div class="d-flex justify-content-between">-->
+<!--                            <h6 class="font-weight-medium">09:22 29-01-2024</h6>-->
+<!--                            <h6 class="font-weight-medium">Delivering-->
 
-                                Your order is on its way to you</h6>
-                        </div>
+<!--                                Your order is on its way to you</h6>-->
+<!--                        </div>-->
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Status</h5>
-                            <h5 class="font-weight-bold">Shipping</h5>
+                            <h5 class="font-weight-bold" th:switch="${orderDetail.status}">
+                                <span th:case="0">Chờ duyệt đơn</span>
+                                <span th:case="*">Đang giao hàng</span>
+                            </h5>
+
+<!--                            <h5 class="font-weight-bold">Shipper: <span th:text="${orderDetail.user.id != 0} ? '${orderDetail.user.username}' : 'Chưa có'"></span></h5>-->
                         </div>
                     </div>
-                </div>
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Action</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                <label class="custom-control-label" for="paypal">Has Received The Goods</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                <label class="custom-control-label" for="directcheck">Request A Return/Refund</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                <label class="custom-control-label" for="directcheck">Contact Seller</label>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="card-footer border-secondary bg-transparent">
-                        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Submit
-                            Information</button>
+                        <div class="d-flex justify-content-between mt-2">
+                            <a class="btn btn-primary" href="/ecommerce-computer/home">Back To Home</a>
+                        </div>
                     </div>
                 </div>
             </div>

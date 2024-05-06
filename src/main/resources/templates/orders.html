@@ -219,7 +219,7 @@
                                 <tr th:each="item : ${orders}">
                                     <td>[[${item.id}]]</td>
                                     <td>[[${#lists.size(item.orderDetails)}]]</td>
-                                    <td th:text="${item.status} == 0 : 'Chờ duyệt đơn' : 'Đang giao hàng'"></td>
+                                    <td th:text="${item.status == 0} ? 'Chờ duyệt đơn' : 'Đang giao hàng'"></td>
                                     <td><a th:href="@{/ecommerce-computer/orders/order-detail(id=${item.id})}" class="btn btn-success">Xem chi tiết</a></td>
                                 </tr>
                             </tbody>

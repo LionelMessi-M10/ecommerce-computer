@@ -6,11 +6,14 @@ import com.ecommerce.computer.model.Product;
 import com.ecommerce.computer.service.CategoryService;
 import com.ecommerce.computer.service.OrderService;
 import com.ecommerce.computer.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -55,6 +58,32 @@ public class SellerController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("orderPage", orderPage);
         return "seller/approved-order";
+    }
+
+    @GetMapping("/quan-tri/approve-order")
+    public String approvedOrderPage(@RequestParam("id") Long id, Model model){
+        Order order = this.orderService.findById(id);
+        model.addAttribute("orderConfirm", order);
+        model.addAttribute("buyDate", order.getOrderDetails().get(0).getCreated_at());
+        return "seller/order-confirm";
+    }
+
+    @PostMapping("/quan-tri/order-confirm")
+    public String orderApproved(@ModelAttribute("order-confirm") Order order, HttpServletRequest httpServletRequest){
+        String status = httpServletRequest.getParameter("status");
+        Long id = Long.parseLong(httpServletRequest.getParameter("order_id"));
+        order = this.orderService.findById(id);
+        order.setStatus(Long.parseLong(status));
+        this.orderService.saveOrder(order);
+        return "redirect:/quan-tri/order-list";
+    }
+
+    @GetMapping("/quan-tri/history-order")
+    public String historyOrderPage(@RequestParam("id") Long id, Model model){
+        Order order = this.orderService.findById(id);
+        model.addAttribute("orderConfirm", order);
+        model.addAttribute("buyDate", order.getOrderDetails().get(0).getCreated_at());
+        return "seller/history-order";
     }
 
 }

@@ -203,6 +203,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         order.setOrderDetails(orderDetails);
+        orderRepository.save(order);
         return order;
     }
 

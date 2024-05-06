@@ -27,6 +27,9 @@ public class Order {
     @Column(name = "payment")
     private String payment;
 
+    @Column(name = "shipper")
+    private String shipper;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 }

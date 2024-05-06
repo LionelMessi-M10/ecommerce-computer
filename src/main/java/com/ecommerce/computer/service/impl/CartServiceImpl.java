@@ -6,11 +6,13 @@ import com.ecommerce.computer.model.Product;
 import com.ecommerce.computer.model.User;
 import com.ecommerce.computer.repository.CartItemRepository;
 import com.ecommerce.computer.repository.CartRepository;
+import com.ecommerce.computer.repository.UserRepository;
 import com.ecommerce.computer.service.CartService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,11 +25,18 @@ public class CartServiceImpl implements CartService {
     @Autowired
     CartItemRepository cartItemRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public void addToCart(User user, Product product) {
-        Cart cart = cartRepository.findByUser(user);
-        List<CartItem> cartItems = cart.getCartItems();
+        Cart cart = new Cart();
+        if(cartRepository.findByUser(user) != null){
+            cart = cartRepository.findByUser(user);
+        }
+        List<CartItem> cartItems = new ArrayList<>();
+        if(cart.getCartItems() != null) cartItems = cart.getCartItems();
         CartItem cartItem = new CartItem();
         cartItem.setCart(cart);
         cartItem.setProduct(product);
@@ -43,6 +52,7 @@ public class CartServiceImpl implements CartService {
         }
 
         cartItems.add(cartItem);
+        cart.setCartItems(cartItems);
         cartRepository.save(cart);
     }
 

@@ -3,6 +3,7 @@ package com.ecommerce.computer.service.impl;
 import com.ecommerce.computer.model.Order;
 import com.ecommerce.computer.repository.OrderRepository;
 import com.ecommerce.computer.service.OrderService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,5 +25,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findById(Long id) {
         return orderRepository.findById(id).get();
+    }
+
+    @Override
+    @Transactional
+    public void saveOrder(Order order) {
+        this.orderRepository.save(order);
     }
 }

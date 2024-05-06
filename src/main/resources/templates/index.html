@@ -234,7 +234,7 @@
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">[[${product.quantity}]] Products</p>
                     <a th:href="@{/ecommerce-computer/shop/product-detail(id=${product.id})}" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="/img-fluid" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="" width="400" height="250">
+                        <img class="/img-fluid" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="" width="300" height="auto">
                     </a>
                     <h5 th:text="${product.name}" class="font-weight-semi-bold m-0">Product name</h5>
                 </div>
@@ -329,7 +329,7 @@
         <div class="row px-xl-5">
             <div class="col">
                 <div class="owl-carousel vendor-carousel">
-                    <img th:each="product : ${products}" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Ảnh sản phẩm" width="350" height="auto">
+                    <img th:each="product : ${products}" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Ảnh sản phẩm" width="auto" height="300">
                 </div>
             </div>
         </div>

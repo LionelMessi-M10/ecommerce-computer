@@ -9,4 +9,5 @@ public interface OrderService {
 
     Page<Order> findAll(Integer pageNo);
     Order findById(Long id);
+    void saveOrder(Order order);
 }
