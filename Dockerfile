@@ -11,5 +11,5 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /target/computer-0.0.1-SNAPSHOT.jar demo.jar
 # ENV PORT=8888
-EXPOSE 8888
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","demo.jar"]
