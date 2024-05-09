@@ -38,6 +38,6 @@ public interface ProductService {
 
     Map<String, Long> getProductByCategory();
 
-    Order checkoutProduct(User user, List<Product> products, List<String> quantitys);
+    Order checkoutProduct(User user, List<Product> products, List<Long> quantitys);
 
 }

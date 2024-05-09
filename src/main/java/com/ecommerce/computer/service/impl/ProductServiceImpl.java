@@ -1,6 +1,7 @@
 package com.ecommerce.computer.service.impl;
 
 import com.ecommerce.computer.model.*;
+import com.ecommerce.computer.repository.CartRepository;
 import com.ecommerce.computer.repository.CategoryRepository;
 import com.ecommerce.computer.repository.OrderRepository;
 import com.ecommerce.computer.repository.ProductRepository;
@@ -32,6 +33,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Override
     public List<Product> findAll() {
@@ -185,7 +189,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Order checkoutProduct(User user, List<Product> products, List<String> quantitys) {
+    public Order checkoutProduct(User user, List<Product> products, List<Long> quantitys) {
         Order order = new Order();
         order.setUser(user);
         order.setStatus(0L);
@@ -196,7 +200,7 @@ public class ProductServiceImpl implements ProductService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
             orderDetail.setProduct(products.get(i));
-            orderDetail.setQuantity(Long.parseLong(quantitys.get(i)));
+            orderDetail.setQuantity(quantitys.get(i));
             orderDetail.setCreated_at(new Date());
             orderDetail.setTotal(orderDetail.getQuantity() * products.get(i).getPrice());
             orderDetails.add(orderDetail);
@@ -204,6 +208,9 @@ public class ProductServiceImpl implements ProductService {
 
         order.setOrderDetails(orderDetails);
         orderRepository.save(order);
+
+        Cart cart = this.cartRepository.findByUser(user);
+        this.cartRepository.delete(cart);
         return order;
     }
 

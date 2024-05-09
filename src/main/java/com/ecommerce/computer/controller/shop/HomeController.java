@@ -108,6 +108,7 @@ public class HomeController {
 
             model.addAttribute("total", total);
             model.addAttribute("cartItems",  cartItems);
+            model.addAttribute("cart", cart);
             model.addAttribute("categories", categories);
         } else {
             return "redirect:/login";

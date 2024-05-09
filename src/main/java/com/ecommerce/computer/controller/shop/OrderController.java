@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -36,17 +35,11 @@ public class OrderController {
 //    xac nhan mua hang tu giao dien xem chi tiet mat hang
     @PostMapping("/ecommerce-computer/shop/checkout")
     public String checkoutProduct(@ModelAttribute("product") Product product, Model model, HttpServletRequest httpServletRequest){
-        List<String> quantitys = Collections.singletonList(httpServletRequest.getParameter("orderQuantity"));
-        List<String> idProducts = Collections.singletonList(httpServletRequest.getParameter("idProduct"));
+        List<Long> quantitys = new ArrayList<>();
+        String cartId = httpServletRequest.getParameter("cartId");
         List<Product> products = new ArrayList<>();
 
         if(product.getId() != null) products.add(productService.findById(product.getId()));
-
-        if(!idProducts.isEmpty()){
-            for(String id : idProducts){
-                if(id != null) products.add(productService.findById(Long.parseLong(id)));
-            }
-        }
 
         List<Category> categories = categoryService.findAll();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -54,6 +47,12 @@ public class OrderController {
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
             User user = userService.findByUserName(username);
+
+            for(CartItem it : user.getCart().getCartItems()){
+                quantitys.add(it.getQuantity());
+                products.add(it.getProduct());
+            }
+
             Order order = new Order();
             Double total = 0.0;
 

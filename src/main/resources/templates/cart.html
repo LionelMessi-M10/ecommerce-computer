@@ -176,6 +176,7 @@
 
     <!-- Cart Start -->
     <form th:action="@{/ecommerce-computer/shop/checkout}" method="POST" th:object="${cartItems}">
+        <input type="hidden" name="cartId" th:value="${cart.id}">
         <div class="container-fluid pt-5">
             <div class="row px-xl-5">
                 <div class="col-lg-8 table-responsive mb-5">
@@ -186,7 +187,7 @@
                                 <th>Price</th>
                                 <th>Quantity</th>
                                 <th>Total</th>
-                                <th>Select</th>
+<!--                                <th>Select</th>-->
                                 <th>Remove</th>
                             </tr>
                         </thead>
@@ -212,7 +213,7 @@
                                         </div>
                                     </td>
                                     <td class="align-middle">[[${item.product.price} * ${item.quantity}]]</td>
-                                    <td><input type="checkbox" class="form-control form-control-sm bg-secondary text-center" name="selectedProduct" th:value="${item.product.id}"></td>
+<!--                                    <td><input type="checkbox" class="form-control form-control-sm bg-secondary text-center" name="selectedProduct" th:value="${item.product.id}"></td>-->
                                     <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
                                 </tr>
                             </div>

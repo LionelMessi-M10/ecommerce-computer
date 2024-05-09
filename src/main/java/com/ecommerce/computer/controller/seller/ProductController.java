@@ -32,7 +32,7 @@ public class ProductController {
     public String saveProduct(@ModelAttribute("product") Product product,
                               @RequestParam("imageProduct") MultipartFile imageProduct) {
         productService.save(imageProduct, product);
-        return "redirect:/product-list";
+        return "redirect:/quan-tri/product-list";
     }
 
     @GetMapping("/quan-tri/edit-product")
@@ -48,12 +48,12 @@ public class ProductController {
     public String updateProduct(@ModelAttribute("product") Product product,
                                 @RequestParam("imageProduct") MultipartFile imageProduct){
         productService.update(imageProduct, product);
-        return "redirect:/product-list";
+        return "redirect:/quan-tri/product-list";
     }
 
     @GetMapping("/quan-tri/delete-product")
     public String deleteProduct(@RequestParam("id") Long id){
         productService.deleteById(id);
-        return "redirect:/product-list";
+        return "redirect:/quan-tri/product-list";
     }
 }
