@@ -138,6 +138,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void save(Product product) {
+        this.productRepository.save(product);
+    }
+
+    @Override
     public Product update(MultipartFile imageProduct, Product product) {
         Product newProduct = productRepository.getById(product.getId());
         try {
@@ -209,8 +214,10 @@ public class ProductServiceImpl implements ProductService {
         order.setOrderDetails(orderDetails);
         orderRepository.save(order);
 
-        Cart cart = this.cartRepository.findByUser(user);
-        this.cartRepository.delete(cart);
+        if(cartRepository.findByUser(user) != null){
+            Cart cart = this.cartRepository.findByUser(user);
+            this.cartRepository.delete(cart);
+        }
         return order;
     }
 

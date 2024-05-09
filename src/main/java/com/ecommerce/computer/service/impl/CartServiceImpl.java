@@ -35,6 +35,7 @@ public class CartServiceImpl implements CartService {
         if(cartRepository.findByUser(user) != null){
             cart = cartRepository.findByUser(user);
         }
+
         List<CartItem> cartItems = new ArrayList<>();
         if(cart.getCartItems() != null) cartItems = cart.getCartItems();
         CartItem cartItem = new CartItem();

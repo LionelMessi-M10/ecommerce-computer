@@ -28,6 +28,8 @@ public interface ProductService {
 
     Product save(MultipartFile imageProduct, Product product);
 
+    void save(Product product);
+
     Product update(MultipartFile imageProduct, Product product);
 
     void deleteById(Long id);

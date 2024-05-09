@@ -41,7 +41,8 @@ public class CartController {
             User user = userService.findByUserName(username);
             cartService.addToCart(user, product);
 
-            Cart cart = cartService.findByUser(user);
+            Cart cart = cartService.findByUser(user) != null ? cartService.findByUser(user) : null;
+
             List<CartItem> cartItems = new ArrayList<>();
 
             if(cart != null) cartItems = cart.getCartItems();
@@ -56,7 +57,7 @@ public class CartController {
         } else {
             return "redirect:/login";
         }
-        return "cart";
+        return "redirect:/ecommerce-computer/cart";
     }
 
     @GetMapping("/ecommerce-computer/shop/sortByLatest")

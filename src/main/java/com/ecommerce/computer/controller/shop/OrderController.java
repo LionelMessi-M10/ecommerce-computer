@@ -35,11 +35,18 @@ public class OrderController {
 //    xac nhan mua hang tu giao dien xem chi tiet mat hang
     @PostMapping("/ecommerce-computer/shop/checkout")
     public String checkoutProduct(@ModelAttribute("product") Product product, Model model, HttpServletRequest httpServletRequest){
+        product = productService.findById(product.getId());
         List<Long> quantitys = new ArrayList<>();
+        String quantityBuy = httpServletRequest.getParameter("quantityBuy");
         String cartId = httpServletRequest.getParameter("cartId");
         List<Product> products = new ArrayList<>();
 
-        if(product.getId() != null) products.add(productService.findById(product.getId()));
+        if(product.getId() != null){
+            products.add(productService.findById(product.getId()));
+            quantitys.add(Long.parseLong(quantityBuy));
+            product.setQuantity(product.getQuantity() - Long.parseLong(quantityBuy));
+            this.productService.save(product);
+        }
 
         List<Category> categories = categoryService.findAll();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,9 +55,11 @@ public class OrderController {
             String username = authentication.getName();
             User user = userService.findByUserName(username);
 
-            for(CartItem it : user.getCart().getCartItems()){
-                quantitys.add(it.getQuantity());
-                products.add(it.getProduct());
+            if(user.getCart() != null){
+                for(CartItem it : user.getCart().getCartItems()){
+                    quantitys.add(it.getQuantity());
+                    products.add(it.getProduct());
+                }
             }
 
             Order order = new Order();

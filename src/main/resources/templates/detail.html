@@ -183,7 +183,7 @@
             </div>
             <div class="col-lg-7 pb-5">
                 <form th:action="@{/ecommerce-computer/shop/checkout}" th:object="${product}"  method="POST">
-                    <input type="hidden" name="id" th:value="${product.id}">
+                    <input type="hidden" name="id" th:field="*{id}">
                     <div>
                         <h3 class="font-weight-semi-bold" th:text="${product.name}"></h3>
                         <h3 class="font-weight-semi-bold mb-4" th:text="${product.price}"></h3>
@@ -195,7 +195,7 @@
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input type="text" class="form-control bg-secondary text-center" name="orderQuantity" value="1">
+                                <input type="text" class="form-control bg-secondary text-center" name="quantityBuy" value="1">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-primary btn-plus">
                                         <i class="fa fa-plus"></i>
