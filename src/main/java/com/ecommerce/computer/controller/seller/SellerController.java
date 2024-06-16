@@ -71,7 +71,7 @@ public class SellerController {
     @PostMapping("/quan-tri/order-confirm")
     public String orderApproved(@ModelAttribute("order-confirm") Order order, HttpServletRequest httpServletRequest){
         String status = httpServletRequest.getParameter("status");
-        Long id = Long.parseLong(httpServletRequest.getParameter("order_id"));
+        Long id = order.getId();
         order = this.orderService.findById(id);
         order.setStatus(Long.parseLong(status));
         this.orderService.saveOrder(order);
